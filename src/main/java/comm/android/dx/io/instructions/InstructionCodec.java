@@ -404,6 +404,17 @@ public enum InstructionCodec {
         }
     },
 
+    FORMAT_25X() {
+        @Override public DecodedInstruction decode(int opcodeUnit,
+                                                   CodeInput in) throws EOFException {
+            return decodeRegisterList(this, opcodeUnit, in);
+        }
+
+        @Override public void encode(DecodedInstruction insn, CodeOutput out) {
+            encodeRegisterList(insn, out);
+        }
+    },
+
     FORMAT_30T() {
         @Override public DecodedInstruction decode(int opcodeUnit,
                 CodeInput in) throws EOFException {

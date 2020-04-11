@@ -140,79 +140,113 @@ public class Dexterous {
         } catch (final FileNotFoundException e) {
             Log.e(TAG, "", e);
         }
-        try (
-                ZipInputStream zipInput =
-                        new ZipInputStream(new BufferedInputStream(apk_original), Charset.forName("ISO-8859-1"));
-                ZipOutputStream zipOutput =
-                        new ZipOutputStream(new BufferedOutputStream(apk_injected), Charset.forName("ISO-8859-1"));
-        ) {
-            ZipEntry apkContent;
-            int classes_dex_counter = 1;
+        int classes_dex_counter = 1;
+        if (config.apkPath.endsWith(".dex")){
+            try(
+                    ZipOutputStream zipOutput =
+                            new ZipOutputStream(new BufferedOutputStream(apk_injected), Charset.forName("ISO-8859-1"));
+            ) {
+                for (final Dex classesDex : this.dexBuffers.values()) {
+                    final String classes_dex_name;
 
-            while ((apkContent = zipInput.getNextEntry()) != null) {
-//                Log.d(TAG, "> zipInput: " + apkContent.getName());
-                if (apkContent.getName().endsWith(".dex") && classes_dex_counter == 1) {
-                    for (final Dex classesDex : this.dexBuffers.values()) {
-                        final String classes_dex_name;
-
-                        if (classes_dex_counter == 1) {
-                            classes_dex_name = "classes.dex";
-                        } else {
-                            classes_dex_name = String.format(Locale.getDefault(), "classes%d.dex", classes_dex_counter);
-                        }
-                        Log.i(TAG, "> APK - Writing: " + classes_dex_name);
-
-                        ZipEntry newClassesEntry = new ZipEntry(classes_dex_name);
-
-                        try {
-                            zipOutput.putNextEntry(newClassesEntry);
-                            zipOutput.write(classesDex.getBytes(), 0, classesDex.getLength());
-                            zipOutput.closeEntry();
-                        } catch (final IOException e) {
-                            Log.e(TAG, e.getMessage());
-                        }
-                        ++classes_dex_counter;
+                    if (classes_dex_counter == 1) {
+                        classes_dex_name = "classes.dex";
+                    } else {
+                        classes_dex_name = String.format(Locale.getDefault(), "classes%d.dex", classes_dex_counter);
                     }
-                } else if (!apkContent.getName().endsWith(".dex")){
-                    byte[] buffer = new byte[1024];
-                    int count;
+                    Log.i(TAG, "> APK - Writing: " + classes_dex_name);
+
+                    ZipEntry newClassesEntry = new ZipEntry(classes_dex_name);
+
                     try {
-                        // Reusing zipInput ZipEntry can leads to error:
-                        // java.util.zip.ZipException: invalid entry compressed size
-                        //   (expected 5088 but got 5171 bytes)
-                        final String fileName = apkContent.getName();
-                        final String fileExtension = ("." + FilenameUtils.getExtension(fileName));
-                        final ZipEntry zipEntry = new ZipEntry(fileName);
-                        if (Config.NO_COMPRESS_EXTENSIONS.contains(fileExtension)) {
-                            Log.v(TAG, String.format(Locale.getDefault(), "> No Compression: %s " +
-                                    "[Method: %d] Size: %d Compressed: %d",
-                                    fileName,
-                                    apkContent.getMethod(),
-                                    apkContent.getSize(),
-                                    apkContent.getCompressedSize()));
-                            long size = apkContent.getSize();
-                            long crc = apkContent.getCrc();
-                            if (size != -1 && crc != -1) {
-                                zipEntry.setMethod(ZipEntry.STORED);
-                                zipEntry.setSize(size);
-                                // zipEntry.setCompressedSize(apkContent.getCompressedSize());
-                                zipEntry.setCrc(crc);
-                            }
-                        }
-                        zipOutput.putNextEntry(zipEntry);
-                        while ((count = zipInput.read(buffer)) != -1) {
-                            zipOutput.write(buffer, 0, count);
-                        }
+                        zipOutput.putNextEntry(newClassesEntry);
+                        zipOutput.write(classesDex.getBytes(), 0, classesDex.getLength());
                         zipOutput.closeEntry();
                     } catch (final IOException e) {
-                        Log.e(TAG, e.getMessage(), e);
+                        Log.e(TAG, e.getMessage());
+                    }
+                    ++classes_dex_counter;
+                }
+                return config.mergedApkPath;
+            } catch (final IOException e) {
+                Log.e(TAG, "", e);
+                return "";
+            }
+        }
+        else {
+            try (
+                    ZipInputStream zipInput =
+                            new ZipInputStream(new BufferedInputStream(apk_original), Charset.forName("ISO-8859-1"));
+                    ZipOutputStream zipOutput =
+                            new ZipOutputStream(new BufferedOutputStream(apk_injected), Charset.forName("ISO-8859-1"));
+            ) {
+                ZipEntry apkContent;
+
+                while ((apkContent = zipInput.getNextEntry()) != null) {
+//                Log.d(TAG, "> zipInput: " + apkContent.getName());
+                    if (apkContent.getName().endsWith(".dex") && classes_dex_counter == 1) {
+                        for (final Dex classesDex : this.dexBuffers.values()) {
+                            final String classes_dex_name;
+
+                            if (classes_dex_counter == 1) {
+                                classes_dex_name = "classes.dex";
+                            } else {
+                                classes_dex_name = String.format(Locale.getDefault(), "classes%d.dex", classes_dex_counter);
+                            }
+                            Log.i(TAG, "> APK - Writing: " + classes_dex_name);
+
+                            ZipEntry newClassesEntry = new ZipEntry(classes_dex_name);
+
+                            try {
+                                zipOutput.putNextEntry(newClassesEntry);
+                                zipOutput.write(classesDex.getBytes(), 0, classesDex.getLength());
+                                zipOutput.closeEntry();
+                            } catch (final IOException e) {
+                                Log.e(TAG, e.getMessage());
+                            }
+                            ++classes_dex_counter;
+                        }
+                    } else if (!apkContent.getName().endsWith(".dex")) {
+                        byte[] buffer = new byte[1024];
+                        int count;
+                        try {
+                            // Reusing zipInput ZipEntry can leads to error:
+                            // java.util.zip.ZipException: invalid entry compressed size
+                            //   (expected 5088 but got 5171 bytes)
+                            final String fileName = apkContent.getName();
+                            final String fileExtension = ("." + FilenameUtils.getExtension(fileName));
+                            final ZipEntry zipEntry = new ZipEntry(fileName);
+                            if (Config.NO_COMPRESS_EXTENSIONS.contains(fileExtension)) {
+                                Log.v(TAG, String.format(Locale.getDefault(), "> No Compression: %s " +
+                                                "[Method: %d] Size: %d Compressed: %d",
+                                        fileName,
+                                        apkContent.getMethod(),
+                                        apkContent.getSize(),
+                                        apkContent.getCompressedSize()));
+                                long size = apkContent.getSize();
+                                long crc = apkContent.getCrc();
+                                if (size != -1 && crc != -1) {
+                                    zipEntry.setMethod(ZipEntry.STORED);
+                                    zipEntry.setSize(size);
+                                    // zipEntry.setCompressedSize(apkContent.getCompressedSize());
+                                    zipEntry.setCrc(crc);
+                                }
+                            }
+                            zipOutput.putNextEntry(zipEntry);
+                            while ((count = zipInput.read(buffer)) != -1) {
+                                zipOutput.write(buffer, 0, count);
+                            }
+                            zipOutput.closeEntry();
+                        } catch (final IOException e) {
+                            Log.e(TAG, e.getMessage(), e);
+                        }
                     }
                 }
+                return config.mergedApkPath;
+            } catch (final IOException e) {
+                Log.e(TAG, "", e);
+                return "";
             }
-            return config.mergedApkPath;
-        } catch (final IOException e) {
-            Log.e(TAG, "", e);
-            return "";
         }
     }
 

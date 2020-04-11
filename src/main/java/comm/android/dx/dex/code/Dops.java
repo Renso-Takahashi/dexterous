@@ -502,6 +502,10 @@ public final class Dops {
         new Dop(Opcodes.INVOKE_INTERFACE, Opcodes.INVOKE_INTERFACE,
             Opcodes.INVOKE_INTERFACE_RANGE, Form35c.THE_ONE, false);
 
+    public static final Dop RETURN_VOID_NO_BARRIER =
+            new Dop(Opcodes.RETURN_VOID_NO_BARRIER, Opcodes.RETURN_VOID_NO_BARRIER,
+                    Opcodes.NO_NEXT, Form10x.THE_ONE, false);
+
     public static final Dop INVOKE_VIRTUAL_RANGE =
         new Dop(Opcodes.INVOKE_VIRTUAL_RANGE, Opcodes.INVOKE_VIRTUAL,
             Opcodes.NO_NEXT, Form3rc.THE_ONE, false);
@@ -937,6 +941,52 @@ public final class Dops {
     public static final Dop USHR_INT_LIT8 =
         new Dop(Opcodes.USHR_INT_LIT8, Opcodes.USHR_INT,
             Opcodes.NO_NEXT, Form22b.THE_ONE, true);
+    public static final Dop IGET_QUICK = 
+        new Dop(Opcodes.IGET_QUICK, Opcodes.IGET_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    public static final Dop IGET_WIDE_QUICK = 
+        new Dop(Opcodes.IGET_WIDE_QUICK, Opcodes.IGET_WIDE_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    public static final Dop IGET_OBJECT_QUICK = 
+        new Dop(Opcodes.IGET_OBJECT_QUICK, Opcodes.IGET_OBJECT_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    public static final Dop IPUT_QUICK = 
+        new Dop(Opcodes.IPUT_QUICK, Opcodes.IPUT_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop IPUT_WIDE_QUICK = 
+        new Dop(Opcodes.IPUT_WIDE_QUICK, Opcodes.IPUT_WIDE_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop IPUT_OBJECT_QUICK = 
+        new Dop(Opcodes.IPUT_OBJECT_QUICK, Opcodes.IPUT_OBJECT_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop INVOKE_VIRTUAL_QUICK = 
+        new Dop(Opcodes.INVOKE_VIRTUAL_QUICK, Opcodes.INVOKE_VIRTUAL_QUICK, Opcodes.NO_NEXT, Form35c.THE_ONE, false);
+    public static final Dop INVOKE_VIRTUAL_RANGE_QUICK = 
+        new Dop(Opcodes.INVOKE_VIRTUAL_RANGE_QUICK, Opcodes.INVOKE_VIRTUAL_RANGE_QUICK, Opcodes.NO_NEXT, Form3rc.THE_ONE, false);
+    public static final Dop IPUT_BOOLEAN_QUICK = 
+        new Dop(Opcodes.IPUT_BOOLEAN_QUICK, Opcodes.IPUT_BOOLEAN_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop IPUT_BYTE_QUICK = 
+        new Dop(Opcodes.IPUT_BYTE_QUICK, Opcodes.IPUT_BYTE_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop IPUT_CHAR_QUICK = 
+        new Dop(Opcodes.IPUT_CHAR_QUICK, Opcodes.IPUT_CHAR_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop IPUT_SHORT_QUICK = 
+        new Dop(Opcodes.IPUT_SHORT_QUICK, Opcodes.IPUT_SHORT_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop IGET_BOOLEAN_QUICK = 
+        new Dop(Opcodes.IGET_BOOLEAN_QUICK, Opcodes.IGET_BOOLEAN_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    public static final Dop IGET_BYTE_QUICK = 
+        new Dop(Opcodes.IGET_BYTE_QUICK, Opcodes.IGET_BYTE_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    public static final Dop IGET_CHAR_QUICK = 
+        new Dop(Opcodes.IGET_CHAR_QUICK, Opcodes.IGET_CHAR_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    public static final Dop IGET_SHORT_QUICK = 
+        new Dop(Opcodes.IGET_SHORT_QUICK, Opcodes.IGET_SHORT_QUICK, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
+    //public static final Dop INVOKE_LAMBDA =
+    //    new Dop(Opcodes.INVOKE_LAMBDA, Opcodes.INVOKE_LAMBDA, Opcodes.NO_NEXT, Form25x.THE_ONE, false);
+    public static final Dop UNUSED_F4 = 
+        new Dop(Opcodes.UNUSED_F4, Opcodes.UNUSED_F4, Opcodes.NO_NEXT, Form10x.THE_ONE, false);
+    public static final Dop CAPTURE_VARIABLE = 
+        new Dop(Opcodes.CAPTURE_VARIABLE, Opcodes.CAPTURE_VARIABLE, Opcodes.NO_NEXT, Form21c.THE_ONE, false);
+    public static final Dop CREATE_LAMBDA = 
+        new Dop(Opcodes.CREATE_LAMBDA, Opcodes.CREATE_LAMBDA, Opcodes.NO_NEXT, Form21c.THE_ONE, false);
+    public static final Dop LIBERATE_VARIABLE = 
+        new Dop(Opcodes.LIBERATE_VARIABLE, Opcodes.LIBERATE_VARIABLE, Opcodes.NO_NEXT, Form22c.THE_ONE, false);
+    public static final Dop BOX_LAMBDA = 
+        new Dop(Opcodes.BOX_LAMBDA, Opcodes.BOX_LAMBDA, Opcodes.NO_NEXT, Form22x.THE_ONE, true);
+    public static final Dop UNBOX_LAMBDA = 
+        new Dop(Opcodes.UNBOX_LAMBDA, Opcodes.UNBOX_LAMBDA, Opcodes.NO_NEXT, Form22c.THE_ONE, true);
 
     public static final Dop INVOKE_POLYMORPHIC =
         new Dop(Opcodes.INVOKE_POLYMORPHIC, Opcodes.INVOKE_POLYMORPHIC,
@@ -1072,6 +1122,7 @@ public final class Dops {
         set(INVOKE_DIRECT);
         set(INVOKE_STATIC);
         set(INVOKE_INTERFACE);
+        set(RETURN_VOID_NO_BARRIER);
         set(INVOKE_VIRTUAL_RANGE);
         set(INVOKE_SUPER_RANGE);
         set(INVOKE_DIRECT_RANGE);
@@ -1181,6 +1232,23 @@ public final class Dops {
         set(SHL_INT_LIT8);
         set(SHR_INT_LIT8);
         set(USHR_INT_LIT8);
+        set(IGET_QUICK);
+        set(IGET_WIDE_QUICK);
+        set(IGET_OBJECT_QUICK);
+        set(IPUT_QUICK);
+        set(IPUT_WIDE_QUICK);
+        set(IPUT_OBJECT_QUICK);
+        set(INVOKE_VIRTUAL_QUICK);
+        set(INVOKE_VIRTUAL_RANGE_QUICK);
+        set(IPUT_BOOLEAN_QUICK);
+        set(IPUT_BYTE_QUICK);
+        set(IPUT_CHAR_QUICK);
+        set(IPUT_SHORT_QUICK);
+        set(IGET_BOOLEAN_QUICK);
+        set(IGET_BYTE_QUICK);
+        set(IGET_CHAR_QUICK);
+        set(IGET_SHORT_QUICK);
+
         set(INVOKE_POLYMORPHIC);
         set(INVOKE_POLYMORPHIC_RANGE);
         set(INVOKE_CUSTOM);

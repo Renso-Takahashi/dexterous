@@ -150,6 +150,7 @@ public final class Opcodes {
     public static final int INVOKE_DIRECT = 0x70;
     public static final int INVOKE_STATIC = 0x71;
     public static final int INVOKE_INTERFACE = 0x72;
+    public static final int RETURN_VOID_NO_BARRIER = 0x73;
     public static final int INVOKE_VIRTUAL_RANGE = 0x74;
     public static final int INVOKE_SUPER_RANGE = 0x75;
     public static final int INVOKE_DIRECT_RANGE = 0x76;
@@ -259,6 +260,31 @@ public final class Opcodes {
     public static final int SHL_INT_LIT8 = 0xe0;
     public static final int SHR_INT_LIT8 = 0xe1;
     public static final int USHR_INT_LIT8 = 0xe2;
+
+    public static final int IGET_QUICK = 0xE3;
+    public static final int IGET_WIDE_QUICK = 0xE4;
+    public static final int IGET_OBJECT_QUICK = 0xE5;
+    public static final int IPUT_QUICK = 0xE6;
+    public static final int IPUT_WIDE_QUICK = 0xE7;
+    public static final int IPUT_OBJECT_QUICK = 0xE8;
+    public static final int INVOKE_VIRTUAL_QUICK = 0xE9;
+    public static final int INVOKE_VIRTUAL_RANGE_QUICK = 0xEA;
+    public static final int IPUT_BOOLEAN_QUICK = 0xEB;
+    public static final int IPUT_BYTE_QUICK = 0xEC;
+    public static final int IPUT_CHAR_QUICK = 0xED;
+    public static final int IPUT_SHORT_QUICK = 0xEE;
+    public static final int IGET_BOOLEAN_QUICK = 0xEF;
+    public static final int IGET_BYTE_QUICK = 0xF0;
+    public static final int IGET_CHAR_QUICK = 0xF1;
+    public static final int IGET_SHORT_QUICK = 0xF2;
+    public static final int INVOKE_LAMBDA = 0xF3;
+    public static final int UNUSED_F4 = 0xF4;
+    public static final int CAPTURE_VARIABLE = 0xF5;
+    public static final int CREATE_LAMBDA = 0xF6;
+    public static final int LIBERATE_VARIABLE = 0xF7;
+    public static final int BOX_LAMBDA = 0xF8;
+    public static final int UNBOX_LAMBDA = 0xF9;
+
     public static final int INVOKE_POLYMORPHIC = 0xfa;
     public static final int INVOKE_POLYMORPHIC_RANGE = 0xfb;
     public static final int INVOKE_CUSTOM = 0xfc;

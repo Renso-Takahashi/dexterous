@@ -16,6 +16,8 @@
 
 package comm.android.dx.io;
 
+import android.util.Log;
+
 import comm.android.dx.io.instructions.InstructionCodec;
 import comm.android.dx.util.Hex;
 import comm.android.dx.util.Hex;
@@ -496,6 +498,10 @@ public final class OpcodeInfo {
         new Info(Opcodes.INVOKE_INTERFACE, "invoke-interface",
             InstructionCodec.FORMAT_35C, IndexType.METHOD_REF);
 
+    public static final Info RETURN_VOID_NO_BARRIER =
+            new Info(Opcodes.RETURN_VOID_NO_BARRIER, "return-void-no-barrier",
+                    InstructionCodec.FORMAT_10X, IndexType.NONE);
+
     public static final Info INVOKE_VIRTUAL_RANGE =
         new Info(Opcodes.INVOKE_VIRTUAL_RANGE, "invoke-virtual/range",
             InstructionCodec.FORMAT_3RC, IndexType.METHOD_REF);
@@ -932,6 +938,78 @@ public final class OpcodeInfo {
         new Info(Opcodes.USHR_INT_LIT8, "ushr-int/lit8",
             InstructionCodec.FORMAT_22B, IndexType.NONE);
 
+
+    public static final Info IGET_QUICK = 
+        new Info(Opcodes.IGET_QUICK, "iget-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IGET_WIDE_QUICK = 
+        new Info(Opcodes.IGET_WIDE_QUICK, "iget-wide-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IGET_OBJECT_QUICK = 
+        new Info(Opcodes.IGET_OBJECT_QUICK, "iget-object-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IPUT_QUICK = 
+        new Info(Opcodes.IPUT_QUICK, "iput-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IPUT_WIDE_QUICK = 
+        new Info(Opcodes.IPUT_WIDE_QUICK, "iput-wide-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IPUT_OBJECT_QUICK = 
+        new Info(Opcodes.IPUT_OBJECT_QUICK, "iput-object-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info INVOKE_VIRTUAL_QUICK = 
+        new Info(Opcodes.INVOKE_VIRTUAL_QUICK, "invoke-virtual-quick",
+        InstructionCodec.FORMAT_35C, IndexType.VTABLE_OFFSET);
+    public static final Info INVOKE_VIRTUAL_RANGE_QUICK = 
+        new Info(Opcodes.INVOKE_VIRTUAL_RANGE_QUICK, "invoke-virtual/range-quick",
+        InstructionCodec.FORMAT_3RC, IndexType.VTABLE_OFFSET);
+    public static final Info IPUT_BOOLEAN_QUICK = 
+        new Info(Opcodes.IPUT_BOOLEAN_QUICK, "iput-boolean-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IPUT_BYTE_QUICK = 
+        new Info(Opcodes.IPUT_BYTE_QUICK, "iput-byte-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IPUT_CHAR_QUICK = 
+        new Info(Opcodes.IPUT_CHAR_QUICK, "iput-char-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IPUT_SHORT_QUICK = 
+        new Info(Opcodes.IPUT_SHORT_QUICK, "iput-short-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IGET_BOOLEAN_QUICK = 
+        new Info(Opcodes.IGET_BOOLEAN_QUICK, "iget-boolean-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IGET_BYTE_QUICK = 
+        new Info(Opcodes.IGET_BYTE_QUICK, "iget-byte-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IGET_CHAR_QUICK = 
+        new Info(Opcodes.IGET_CHAR_QUICK, "iget-char-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info IGET_SHORT_QUICK = 
+        new Info(Opcodes.IGET_SHORT_QUICK, "iget-short-quick",
+        InstructionCodec.FORMAT_22C, IndexType.FIELD_OFFSET);
+    public static final Info INVOKE_LAMBDA = 
+        new Info(Opcodes.INVOKE_LAMBDA, "invoke-lambda",
+        InstructionCodec.FORMAT_25X, IndexType.NONE);
+    public static final Info UNUSED_F4 = 
+        new Info(Opcodes.UNUSED_F4, "unused-f4",
+        InstructionCodec.FORMAT_10X, IndexType.UNKNOWN);
+    public static final Info CAPTURE_VARIABLE = 
+        new Info(Opcodes.CAPTURE_VARIABLE, "capture-variable",
+        InstructionCodec.FORMAT_21C, IndexType.STRING_REF);
+    public static final Info CREATE_LAMBDA = 
+        new Info(Opcodes.CREATE_LAMBDA, "create-lambda",
+        InstructionCodec.FORMAT_21C, IndexType.METHOD_REF);
+    public static final Info LIBERATE_VARIABLE = 
+        new Info(Opcodes.LIBERATE_VARIABLE, "liberate-variable",
+        InstructionCodec.FORMAT_22C, IndexType.STRING_REF);
+    public static final Info BOX_LAMBDA = 
+        new Info(Opcodes.BOX_LAMBDA, "box-lambda",
+        InstructionCodec.FORMAT_22X, IndexType.NONE);
+    public static final Info UNBOX_LAMBDA = 
+        new Info(Opcodes.UNBOX_LAMBDA, "unbox-lambda",
+        InstructionCodec.FORMAT_22C, IndexType.TYPE_REF);
+
+
     public static final Info INVOKE_POLYMORPHIC =
         new Info(Opcodes.INVOKE_POLYMORPHIC, "invoke-polymorphic",
             InstructionCodec.FORMAT_45CC, IndexType.METHOD_AND_PROTO_REF);
@@ -1072,6 +1150,7 @@ public final class OpcodeInfo {
         set(INVOKE_DIRECT);
         set(INVOKE_STATIC);
         set(INVOKE_INTERFACE);
+        set(RETURN_VOID_NO_BARRIER);
         set(INVOKE_VIRTUAL_RANGE);
         set(INVOKE_SUPER_RANGE);
         set(INVOKE_DIRECT_RANGE);
@@ -1181,6 +1260,30 @@ public final class OpcodeInfo {
         set(SHL_INT_LIT8);
         set(SHR_INT_LIT8);
         set(USHR_INT_LIT8);
+        set(IGET_QUICK);
+        set(IGET_WIDE_QUICK);
+        set(IGET_OBJECT_QUICK);
+        set(IPUT_QUICK);
+        set(IPUT_WIDE_QUICK);
+        set(IPUT_OBJECT_QUICK);
+        set(INVOKE_VIRTUAL_QUICK);
+        set(INVOKE_VIRTUAL_RANGE_QUICK);
+        set(IPUT_BOOLEAN_QUICK);
+        set(IPUT_BYTE_QUICK);
+        set(IPUT_CHAR_QUICK);
+        set(IPUT_SHORT_QUICK);
+        set(IGET_BOOLEAN_QUICK);
+        set(IGET_BYTE_QUICK);
+        set(IGET_CHAR_QUICK);
+        set(IGET_SHORT_QUICK);
+        set(INVOKE_LAMBDA);
+        set(UNUSED_F4);
+        set(CAPTURE_VARIABLE);
+        set(CREATE_LAMBDA);
+        set(LIBERATE_VARIABLE);
+        set(BOX_LAMBDA);
+        set(UNBOX_LAMBDA);
+
         set(INVOKE_POLYMORPHIC);
         set(INVOKE_POLYMORPHIC_RANGE);
         set(INVOKE_CUSTOM);
